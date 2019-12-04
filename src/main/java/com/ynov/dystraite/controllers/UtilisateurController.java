@@ -16,6 +16,7 @@ public class UtilisateurController {
 	UtilisateurService service;
 	
 	
+	
 	@RequestMapping(value = "/utilisateur/get/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Utilisateur getById(@PathVariable int id) {

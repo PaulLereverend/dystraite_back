@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -79,6 +80,18 @@ public class UtilisateurService {
 		}
 		
 		return utilisateur1;
+	}
+	public void setPassword(int id, String password) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12); // Strength set as 12
+
+		Optional<Utilisateur> utilisateur=utilisateurRepo.findById(id);
+		if(!utilisateur.isPresent()) {
+			System.out.println("Utilisateur non trouvé");
+		}
+		Utilisateur c = utilisateur.get();
+		c.setMdp(encoder.encode(password));
+		
+		utilisateurRepo.save(c);
 	}
 
 }
