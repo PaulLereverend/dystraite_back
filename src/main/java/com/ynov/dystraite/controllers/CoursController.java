@@ -20,28 +20,27 @@ public class CoursController {
 		CoursService service;
 		
 		//CRUD 
-		@RequestMapping(value = "/cours/get/{id}", method = RequestMethod.GET,
+		@RequestMapping(value = "/cours/{id}", method = RequestMethod.GET,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
 		public Cours getById(@PathVariable int id) {
 			return service.getById(id);
 		}
-		@RequestMapping(value = "/cours/get", method = RequestMethod.GET,
+		@RequestMapping(value = "/cours", method = RequestMethod.GET,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
 		public List<Cours> getAll() {
-			System.out.println("ss");
 			return service.getAll();
 		}
-		@RequestMapping(value = "/cours/create", method = RequestMethod.POST,
+		@RequestMapping(value = "/cours", method = RequestMethod.POST,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
 		public Cours create(Cours cours) {
 			return service.create(cours);
 		}
-		@RequestMapping(value = "/cours/delete/{id}", method = RequestMethod.DELETE,
+		@RequestMapping(value = "/cours/{id}", method = RequestMethod.DELETE,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
 		public Cours delete(@PathVariable int id) {
 			return service.delete(id);
 		}
-		@RequestMapping(value = "/cours/update/{id}", method = RequestMethod.PUT,
+		@RequestMapping(value = "/cours/{id}", method = RequestMethod.PUT,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
 		public Cours update(@PathVariable int id, Cours cours) {	
 			return service.update(id, cours);
