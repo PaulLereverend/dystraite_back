@@ -29,8 +29,11 @@ public class Utilisateur {
 	@Column(name = "date_naissance")
 	private Date date_naissance;
 	
-	@Column(name = "adresse")
-	private String adresse;
+	@Column(name = "latitude")
+	private long latitude;
+	
+	@Column(name = "longitude")
+	private long longitude;
 
 	@Column(name = "ville")
 	private String ville;
@@ -38,12 +41,15 @@ public class Utilisateur {
 	@Column(name = "code_postal")
 	private int code_postal;
 	
-	@Column(name = "mdp")
-	private String mdp;
+	@Column(name = "password")
+	private String password;
 	
 	@Column(name = "role")
 	private String role;
-		
+	
+	@Column(name= "photo")
+	private Byte photo;
+	
 	@OneToOne
 	@JoinColumn(name = "orthophoniste", referencedColumnName = "email")
 	private Utilisateur orthophoniste;
@@ -79,13 +85,30 @@ public class Utilisateur {
 	public void setDate_naissance(Date date_naissance) {
 		this.date_naissance = date_naissance;
 	}
+	
 
-	public String getAdresse() {
-		return adresse;
+	public long getLatitude() {
+		return latitude;
 	}
 
-	public void setAdresse(String adresse) {
-		this.adresse = adresse;
+	public void setLatitude(long latitude) {
+		this.latitude = latitude;
+	}
+
+	public long getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(long longitude) {
+		this.longitude = longitude;
+	}
+
+	public Byte getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(Byte photo) {
+		this.photo = photo;
 	}
 
 	public String getVille() {
@@ -100,16 +123,12 @@ public class Utilisateur {
 		return code_postal;
 	}
 
-	public void setCode_postal(int code_postal) {
-		this.code_postal = code_postal;
+	public String getPassword() {
+		return password;
 	}
 
-	public String getMdp() {
-		return mdp;
-	}
-
-	public void setMdp(String mdp) {
-		this.mdp = mdp;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getRole() {
@@ -127,4 +146,13 @@ public class Utilisateur {
 	public void setOrthophoniste(Utilisateur orthophoniste) {
 		this.orthophoniste = orthophoniste;
 	}
+
+	@Override
+	public String toString() {
+		return "Utilisateur [email=" + email + ", nom=" + nom + ", prenom=" + prenom + ", date_naissance="
+				+ date_naissance + ", latitude=" + latitude + ", longitude=" + longitude + ", ville=" + ville
+				+ ", code_postal=" + code_postal + ", password=" + password + ", role=" + role + ", photo=" + photo
+				+ ", orthophoniste=" + orthophoniste + "]";
+	}
+	
 }

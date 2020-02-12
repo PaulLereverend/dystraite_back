@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ynov.dystraite.entities.Utilisateur;
 import com.ynov.dystraite.exceptions.UtilisateurExistException;
+import com.ynov.dystraite.exceptions.UtilisateurNotFoundException;
 import com.ynov.dystraite.repositories.UtilisateurRepository;
 
 @Service
@@ -21,14 +22,12 @@ public class UtilisateurService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	
-	
-	public Utilisateur getById(@PathVariable int id) {
-		Optional<Utilisateur> utilisateur=utilisateurRepo.findById(id);
-		if(!utilisateur.isPresent()) {
-			System.out.println("Utilisateur non trouvé");
+	public Utilisateur getById(@PathVariable String email) throws UtilisateurNotFoundException {
+		Utilisateur utilisateur=utilisateurRepo.findByEmail(email);
+		if(utilisateur == null) {
+			throw new UtilisateurNotFoundException("L'utilisateur n'a pas été trouvé");
 		}
-		return utilisateur.get();
+		return utilisateur;
 	}
 	
 	public List<Utilisateur> getAll() {
@@ -41,17 +40,16 @@ public class UtilisateurService {
 	        throw new UtilisateurExistException(
 	          "Cette adresse email est déjà utilisée :" + utilisateur.getEmail());
 	    }
-		utilisateur.setMdp(passwordEncoder.encode(utilisateur.getMdp()));
 		utilisateurRepo.save(utilisateur);
 		return utilisateur;
 	}
 	public Utilisateur changePassword(String email, String oldPassword, String newPassword) {
 		Utilisateur user = utilisateurRepo.findByEmail(email);
-		if (user.getMdp() != passwordEncoder.encode(oldPassword)) {
+		if (user.getPassword() != this.encode(oldPassword)) {
 			throw new UtilisateurExistException(
 			          "Mot de passe incorrect");
 		}
-		user.setMdp(passwordEncoder.encode(newPassword));
+		user.setPassword(this.encode(newPassword));
 		utilisateurRepo.save(user);
 		return user;
 	}
@@ -87,14 +85,14 @@ public class UtilisateurService {
 		if (utilisateur2.getDate_naissance() != null){
 			utilisateur1.setDate_naissance(utilisateur2.getDate_naissance());
 		}
-		if (utilisateur2.getAdresse() != null){
-			utilisateur1.setAdresse(utilisateur2.getAdresse());
+		if (utilisateur2.getLatitude() != 0){
+			utilisateur1.setLatitude(utilisateur2.getLatitude());
+		}
+		if (utilisateur2.getLongitude() != 0){
+			utilisateur1.setLongitude(utilisateur2.getLongitude());
 		}
 		if (utilisateur2.getVille() != null){
 			utilisateur1.setVille(utilisateur2.getVille());
-		}
-		if (utilisateur2.getCode_postal() != 0){
-			utilisateur1.setCode_postal(utilisateur2.getCode_postal());
 		}
 		if (utilisateur2.getRole() != null){
 			utilisateur1.setRole(utilisateur2.getRole());
@@ -105,17 +103,23 @@ public class UtilisateurService {
 		
 		return utilisateur1;
 	}
-	public void setPassword(int id, String password) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12); // Strength set as 12
+	public void setPassword(String email, String password) {
 
-		Optional<Utilisateur> utilisateur=utilisateurRepo.findById(id);
-		if(!utilisateur.isPresent()) {
-			System.out.println("Utilisateur non trouvé");
+		Utilisateur utilisateur=utilisateurRepo.findByEmail(email);
+		if(utilisateur == null) {
+			throw new UtilisateurNotFoundException("L'utilisateur n'a pas été trouvé");
 		}
-		Utilisateur c = utilisateur.get();
-		c.setMdp(encoder.encode(password));
-		
+		Utilisateur c = utilisateur;
+		c.setPassword(this.encode(password));
 		utilisateurRepo.save(c);
 	}
-
+	public String encode (String password) {
+		return passwordEncoder.encode(password);
+	}
+	public boolean isPasswordMatching(String password, String password2) {
+		return passwordEncoder.matches(password, password2);
+	}
+	public List<Utilisateur> getNearOrtho(Utilisateur util){
+		return utilisateurRepo.findNearest(util.getLatitude(), util.getLongitude());
+	}
 }

@@ -19,28 +19,28 @@ public class LivreController {
 	@Autowired
 	LivreService service;
 	
-	@RequestMapping(value = "/livre/get/{id}", method = RequestMethod.GET,
+	@RequestMapping(value = "/livre/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Livre getById(@PathVariable int id) {
 		return service.getById(id);
 	}
-	@RequestMapping(value = "/livre/get", method = RequestMethod.GET,
+	@RequestMapping(value = "/livre", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Livre> getAll() {
 		System.out.println("ss");
 		return service.getAll();
 	}
-	@RequestMapping(value = "/livre/create", method = RequestMethod.POST,
+	@RequestMapping(value = "/livre", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Livre create(Livre livre) {
 		return service.create(livre);
 	}
-	@RequestMapping(value = "/livre/delete/{id}", method = RequestMethod.DELETE,
+	@RequestMapping(value = "/livre/{id}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Livre delete(@PathVariable int id) {
 		return service.delete(id);
 	}
-	@RequestMapping(value = "/livre/update/{id}", method = RequestMethod.PUT,
+	@RequestMapping(value = "/livre/{id}", method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Livre update(@PathVariable int id, Livre livre) {	
 		return service.update(id, livre);

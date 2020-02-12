@@ -19,28 +19,27 @@ public class TagsController {
 	TagsService service;
 	
 	
-	@RequestMapping(value = "/tags/get/{id}", method = RequestMethod.GET,
+	@RequestMapping(value = "/tags/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Tags getById(@PathVariable int id) {
 		return service.getById(id);
 	}
-	@RequestMapping(value = "/tags/get", method = RequestMethod.GET,
+	@RequestMapping(value = "/tags", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Tags> getAll() {
-		System.out.println("ss");
 		return service.getAll();
 	}
-	@RequestMapping(value = "/tags/create", method = RequestMethod.POST,
+	@RequestMapping(value = "/tags", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Tags create(Tags tags) {
 		return service.create(tags);
 	}
-	@RequestMapping(value = "/tags/delete/{id}", method = RequestMethod.DELETE,
+	@RequestMapping(value = "/tags/{id}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Tags delete(@PathVariable int id) {
 		return service.delete(id);
 	}
-	@RequestMapping(value = "/tags/update/{id}", method = RequestMethod.PUT,
+	@RequestMapping(value = "/tags/{id}", method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Tags update(@PathVariable int id, Tags tags) {	
 		return service.update(id, tags);
