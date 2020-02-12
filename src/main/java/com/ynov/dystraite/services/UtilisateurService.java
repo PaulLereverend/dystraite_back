@@ -4,17 +4,25 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ynov.dystraite.entities.Utilisateur;
+import com.ynov.dystraite.exceptions.UtilisateurExistException;
 import com.ynov.dystraite.repositories.UtilisateurRepository;
 
 @Service
 public class UtilisateurService {
 	@Autowired
 	UtilisateurRepository utilisateurRepo;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	
 	
 	public Utilisateur getById(@PathVariable int id) {
 		Optional<Utilisateur> utilisateur=utilisateurRepo.findById(id);
@@ -27,9 +35,26 @@ public class UtilisateurService {
 	public List<Utilisateur> getAll() {
 		return utilisateurRepo.findAll();
 	}
-	public Utilisateur create(Utilisateur utilisateur) {
+	
+	
+	public Utilisateur create(Utilisateur utilisateur) throws UtilisateurExistException{	
+		if (utilisateurRepo.findByEmail(utilisateur.getEmail()) != null) {
+	        throw new UtilisateurExistException(
+	          "Cette adresse email est déjà utilisée :" + utilisateur.getEmail());
+	    }
+		utilisateur.setMdp(passwordEncoder.encode(utilisateur.getMdp()));
 		utilisateurRepo.save(utilisateur);
 		return utilisateur;
+	}
+	public Utilisateur changePassword(String email, String oldPassword, String newPassword) {
+		Utilisateur user = utilisateurRepo.findByEmail(email);
+		if (user.getMdp() != passwordEncoder.encode(oldPassword)) {
+			throw new UtilisateurExistException(
+			          "Mot de passe incorrect");
+		}
+		user.setMdp(passwordEncoder.encode(newPassword));
+		utilisateurRepo.save(user);
+		return user;
 	}
 	public Utilisateur delete(@PathVariable int id) {
 		Optional<Utilisateur> utilisateur=utilisateurRepo.findById(id);

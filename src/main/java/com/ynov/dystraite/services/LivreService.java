@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.ynov.dystraite.entities.Cours;
 import com.ynov.dystraite.entities.Livre;
 import com.ynov.dystraite.repositories.LivreRepository;
 
@@ -66,6 +67,9 @@ public class LivreService {
 			livre1.setTags(livre2.getTags());
 		}
 		return livre1;
+	}
+	public List<Livre> findLastCreated(int limit){
+		return livreRepo.findLastCreated(limit);
 	}
 
 }

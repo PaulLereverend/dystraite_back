@@ -19,7 +19,7 @@ public class CoursController {
 		@Autowired
 		CoursService service;
 		
-		
+		//CRUD 
 		@RequestMapping(value = "/cours/get/{id}", method = RequestMethod.GET,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
 		public Cours getById(@PathVariable int id) {
@@ -46,4 +46,11 @@ public class CoursController {
 		public Cours update(@PathVariable int id, Cours cours) {	
 			return service.update(id, cours);
 		}
+		
+		@RequestMapping(value = "/cours/getLast/{limit}", method = RequestMethod.GET,
+	            produces = MediaType.APPLICATION_JSON_VALUE)
+		public List<Cours> getLast(@PathVariable int limit) {
+			return service.findLastCreated(limit);
+		}
+		
 }

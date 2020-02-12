@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ynov.dystraite.entities.Cours;
 import com.ynov.dystraite.entities.Livre;
 import com.ynov.dystraite.services.LivreService;
 
@@ -43,5 +44,10 @@ public class LivreController {
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Livre update(@PathVariable int id, Livre livre) {	
 		return service.update(id, livre);
+	}
+	@RequestMapping(value = "/livre/getLast/{limit}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Livre> getLast(@PathVariable int limit) {
+		return service.findLastCreated(limit);
 	}
 }

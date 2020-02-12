@@ -70,6 +70,9 @@ public class CoursService {
 		}
 		return cours1;
 	}
+	public List<Cours> findLastCreated(int limit){
+		return coursRepo.findLastCreated(limit);
+	}
 
 
 }

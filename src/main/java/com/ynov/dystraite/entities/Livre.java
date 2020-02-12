@@ -1,5 +1,6 @@
 package com.ynov.dystraite.entities;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -30,6 +31,10 @@ public class Livre {
 	
 	@Column(name = "vignette", columnDefinition="BLOB")
 	private byte[] vignette;
+	
+	
+	@Column(name = "createdAt")
+	private Date createdAt;	
 	
 	@ManyToMany
 	@JoinTable(
@@ -84,6 +89,14 @@ public class Livre {
 
 	public void setTags(List<Tags> tags) {
 		this.tags = tags;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 }

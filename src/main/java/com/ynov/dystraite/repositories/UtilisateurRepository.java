@@ -7,4 +7,5 @@ import com.ynov.dystraite.entities.Utilisateur;
 
 @Repository
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer>{
+	public Utilisateur findByEmail(String email);
 }
