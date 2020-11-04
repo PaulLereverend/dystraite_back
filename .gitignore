@@ -28,4 +28,4 @@ target/*
 target/
 
 .idea
-application.properties
+src/main/resources/application.properties
