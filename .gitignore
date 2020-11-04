@@ -26,3 +26,6 @@ target/surefire-reports/
 
 target/*
 target/
+
+.idea
+application.properties
