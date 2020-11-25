@@ -19,7 +19,7 @@ public class TagsService {
 	public Tags getById(@PathVariable int id) {
 		Optional<Tags> tags=tagsRepo.findById(id);
 		if(!tags.isPresent()) {
-			System.out.println("Tags non trouvé");
+			System.out.println("Tag not found");
 		}
 		return tags.get();
 	}
@@ -34,37 +34,37 @@ public class TagsService {
 	public Tags delete(@PathVariable int id) {
 		Optional<Tags> tags=tagsRepo.findById(id);
 		if(!tags.isPresent()) {
-			System.out.println("Tags non trouvé");
+			System.out.println("Tag not found");
 		}
 		tagsRepo.deleteById(id);
 		return tags.get();
 	}
-	public Tags update(@PathVariable int id, Tags cour) {
+	public Tags update(@PathVariable int id, Tags newTag) {
 		Optional<Tags> tags=tagsRepo.findById(id);
 		if(!tags.isPresent()) {
-			System.out.println("Tags non trouvé");
+			System.out.println("Tag not found");
 		}
-		Tags c = tags.get();
+		Tags t = tags.get();
 		
-		tagsRepo.save(recopie(c, cour));
-		return c;
+		tagsRepo.save(copy(t, newTag));
+		return t;
 	}
 	
-	private Tags recopie (Tags tags1, Tags tags2) {
-		if (tags2.getTitre() != null){
-			tags1.setTitre(tags2.getTitre());
+	private Tags copy(Tags tags1, Tags tags2) {
+		if (tags2.getTitle() != null){
+			tags1.setTitle(tags2.getTitle());
 		}
 		if (tags2.getDescription() != null){
 			tags1.setDescription(tags2.getDescription());
 		}
-		if (tags2.getCouleur() != null){
-			tags1.setCouleur(tags2.getCouleur());
+		if (tags2.getColor() != null){
+			tags1.setColor(tags2.getColor());
 		}
-		if (tags2.getCours() != null){
-			tags1.setCours(tags2.getCours());
+		if (tags2.getLessons() != null){
+			tags1.setLessons(tags2.getLessons());
 		}
-		if (tags2.getLivres() != null){
-			tags1.setLivres(tags2.getLivres());
+		if (tags2.getBooks() != null){
+			tags1.setBooks(tags2.getBooks());
 		}
 		return tags1;
 	}

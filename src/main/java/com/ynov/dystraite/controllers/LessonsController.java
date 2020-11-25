@@ -2,53 +2,52 @@ package com.ynov.dystraite.controllers;
 
 import java.util.List;
 
+import com.ynov.dystraite.entities.Lessons;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ynov.dystraite.entities.Cours;
-import com.ynov.dystraite.services.CoursService;
+import com.ynov.dystraite.services.LessonsService;
 
 @RestController
-public class CoursController {	
+public class LessonsController {
 		
 		@Autowired
-		CoursService service;
+		LessonsService service;
 		
 		//CRUD 
-		@RequestMapping(value = "/cours/{id}", method = RequestMethod.GET,
+		@RequestMapping(value = "/lessons/{id}", method = RequestMethod.GET,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
-		public Cours getById(@PathVariable int id) {
+		public Lessons getById(@PathVariable int id) {
 			return service.getById(id);
 		}
-		@RequestMapping(value = "/cours", method = RequestMethod.GET,
+		@RequestMapping(value = "/lessons", method = RequestMethod.GET,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
-		public List<Cours> getAll() {
+		public List<Lessons> getAll() {
 			return service.getAll();
 		}
-		@RequestMapping(value = "/cours", method = RequestMethod.POST,
+		@RequestMapping(value = "/lessons", method = RequestMethod.POST,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
-		public Cours create(Cours cours) {
-			return service.create(cours);
+		public Lessons create(Lessons lesson) {
+			return service.create(lesson);
 		}
-		@RequestMapping(value = "/cours/{id}", method = RequestMethod.DELETE,
+		@RequestMapping(value = "/lessons/{id}", method = RequestMethod.DELETE,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
-		public Cours delete(@PathVariable int id) {
+		public Lessons delete(@PathVariable int id) {
 			return service.delete(id);
 		}
-		@RequestMapping(value = "/cours/{id}", method = RequestMethod.PUT,
+		@RequestMapping(value = "/lessons/{id}", method = RequestMethod.PUT,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
-		public Cours update(@PathVariable int id, Cours cours) {	
-			return service.update(id, cours);
+		public Lessons update(@PathVariable int id, Lessons lesson) {
+			return service.update(id, lesson);
 		}
 		
-		@RequestMapping(value = "/cours/getLast/{limit}", method = RequestMethod.GET,
+		@RequestMapping(value = "/lessons/getLast/{limit}", method = RequestMethod.GET,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
-		public List<Cours> getLast(@PathVariable int limit) {
+		public List<Lessons> getLast(@PathVariable int limit) {
 			return service.findLastCreated(limit);
 		}
 		

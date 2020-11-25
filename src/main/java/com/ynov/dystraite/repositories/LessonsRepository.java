@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ynov.dystraite.entities.Livre;
+import com.ynov.dystraite.entities.Lessons;
+
 
 @Repository
-public interface LivreRepository extends JpaRepository<Livre, Integer>{
+public interface LessonsRepository extends JpaRepository<Lessons, Integer>{
 	@Query(
-			  value = "SELECT * FROM livre order by created_at desc limit ?1", 
+			  value = "SELECT * FROM lessons order by created_at desc limit ?1",
 			  nativeQuery = true)
-	  List<Livre> findLastCreated(int limit);
+	  List<Lessons> findLastCreated(int limit);
 }

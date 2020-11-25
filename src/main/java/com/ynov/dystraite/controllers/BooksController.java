@@ -9,45 +9,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ynov.dystraite.entities.Cours;
-import com.ynov.dystraite.entities.Livre;
-import com.ynov.dystraite.services.LivreService;
+import com.ynov.dystraite.entities.Books;
+import com.ynov.dystraite.services.BooksService;
 
 @RestController
-public class LivreController {
+public class BooksController {
 	
 	@Autowired
-	LivreService service;
+	BooksService service;
 	
-	@RequestMapping(value = "/livre/{id}", method = RequestMethod.GET,
+	@RequestMapping(value = "/books/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-	public Livre getById(@PathVariable int id) {
+	public Books getById(@PathVariable int id) {
 		return service.getById(id);
 	}
-	@RequestMapping(value = "/livre", method = RequestMethod.GET,
+	@RequestMapping(value = "/books", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Livre> getAll() {
+	public List<Books> getAll() {
 		System.out.println("ss");
 		return service.getAll();
 	}
-	@RequestMapping(value = "/livre", method = RequestMethod.POST,
+	@RequestMapping(value = "/books", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-	public Livre create(Livre livre) {
-		return service.create(livre);
+	public Books create(Books book) {
+		return service.create(book);
 	}
-	@RequestMapping(value = "/livre/{id}", method = RequestMethod.DELETE,
+	@RequestMapping(value = "/books/{id}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-	public Livre delete(@PathVariable int id) {
+	public Books delete(@PathVariable int id) {
 		return service.delete(id);
 	}
-	@RequestMapping(value = "/livre/{id}", method = RequestMethod.PUT,
+	@RequestMapping(value = "/books/{id}", method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
-	public Livre update(@PathVariable int id, Livre livre) {	
-		return service.update(id, livre);
+	public Books update(@PathVariable int id, Books book) {
+		return service.update(id, book);
 	}
-	@RequestMapping(value = "/livre/getLast/{limit}", method = RequestMethod.GET,
+	@RequestMapping(value = "/books/getLast/{limit}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Livre> getLast(@PathVariable int limit) {
+	public List<Books> getLast(@PathVariable int limit) {
 		return service.findLastCreated(limit);
 	}
 }
