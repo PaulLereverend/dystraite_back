@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -19,20 +17,20 @@ public class Tags {
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "titre")
-	private String titre;
+	@Column(name = "title")
+	private String title;
 	
 	@Column(name = "description")
 	private String description;
 	
-	@Column(name = "couleur")
-	private String couleur;	
+	@Column(name = "color")
+	private String color;
 	
 	@ManyToMany(mappedBy = "tags")
-    private List<Cours> cours;
+    private List<Lessons> lessons;
 	
 	@ManyToMany(mappedBy = "tags")
-    private List<Livre> livres;
+    private List<Books> books;
 
 	public int getId() {
 		return id;
@@ -42,12 +40,12 @@ public class Tags {
 		this.id = id;
 	}
 
-	public String getTitre() {
-		return titre;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setTitre(String titre) {
-		this.titre = titre;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {
@@ -58,28 +56,28 @@ public class Tags {
 		this.description = description;
 	}
 
-	public String getCouleur() {
-		return couleur;
+	public String getColor() {
+		return color;
 	}
 
-	public void setCouleur(String couleur) {
-		this.couleur = couleur;
+	public void setColor(String color) {
+		this.color = color;
 	}
 
-	public List<Cours> getCours() {
-		return cours;
+	public List<Lessons> getLessons() {
+		return lessons;
 	}
 
-	public void setCours(List<Cours> cours) {
-		this.cours = cours;
+	public void setLessons(List<Lessons> lessons) {
+		this.lessons = lessons;
 	}
 
-	public List<Livre> getLivres() {
-		return livres;
+	public List<Books> getBooks() {
+		return books;
 	}
 
-	public void setLivres(List<Livre> livres) {
-		this.livres = livres;
+	public void setBooks(List<Books> books) {
+		this.books = books;
 	}
 	
 }

@@ -13,33 +13,34 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Cours {
+public class Books {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "titre")
-	private String titre;
+	@Column(name = "title")
+	private String title;
 	
 	@Column(name = "description")
 	private String description;
 	
-	@Column(name = "contenu")
-	private String contenu;	
+	@Column(name = "link")
+	private String link;
 	
-	@Column(name = "vignette", columnDefinition="BLOB")
-	private byte[] vignette;
+	@Column(name = "thumbnail", columnDefinition="BLOB")
+	private byte[] thumbnail;
 	
-	@Column(name = "createdAt")
+	
+	@Column(name = "created_at")
 	private Date createdAt;	
 	
 	@ManyToMany
 	@JoinTable(
 			  name = "tags", 
-			  joinColumns = @JoinColumn(name = "cours_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "tags_id"))
+			  joinColumns = @JoinColumn(name = "book_id"),
+			  inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tags> tags;
 
 	public int getId() {
@@ -50,12 +51,12 @@ public class Cours {
 		this.id = id;
 	}
 
-	public String getTitre() {
-		return titre;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setTitre(String titre) {
-		this.titre = titre;
+	public void setTitle(String titre) {
+		this.title = titre;
 	}
 
 	public String getDescription() {
@@ -66,20 +67,20 @@ public class Cours {
 		this.description = description;
 	}
 
-	public String getContenu() {
-		return contenu;
+	public String getLink() {
+		return link;
 	}
 
-	public void setContenu(String contenu) {
-		this.contenu = contenu;
+	public void setLink(String lien) {
+		this.link = lien;
 	}
 
-	public byte[] getVignette() {
-		return vignette;
+	public byte[] getThumbnail() {
+		return thumbnail;
 	}
 
-	public void setVignette(byte[] vignette) {
-		this.vignette = vignette;
+	public void setThumbnail(byte[] vignette) {
+		this.thumbnail = vignette;
 	}
 
 	public List<Tags> getTags() {
@@ -97,6 +98,5 @@ public class Cours {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
 	
 }

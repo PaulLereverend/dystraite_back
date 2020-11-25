@@ -13,34 +13,33 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Livre {
+public class Lessons {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "titre")
-	private String titre;
+	@Column(name = "title")
+	private String title;
 	
 	@Column(name = "description")
 	private String description;
 	
-	@Column(name = "lien")
-	private String lien;	
+	@Column(name = "content")
+	private String content;
 	
-	@Column(name = "vignette", columnDefinition="BLOB")
-	private byte[] vignette;
+	@Column(name = "thumbnail", columnDefinition="BLOB")
+	private byte[] thumbnail;
 	
-	
-	@Column(name = "createdAt")
+	@Column(name = "created_at")
 	private Date createdAt;	
 	
 	@ManyToMany
 	@JoinTable(
 			  name = "tags", 
-			  joinColumns = @JoinColumn(name = "livre_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "tags_id"))
+			  joinColumns = @JoinColumn(name = "lesson_id"),
+			  inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tags> tags;
 
 	public int getId() {
@@ -51,12 +50,12 @@ public class Livre {
 		this.id = id;
 	}
 
-	public String getTitre() {
-		return titre;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setTitre(String titre) {
-		this.titre = titre;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {
@@ -67,20 +66,20 @@ public class Livre {
 		this.description = description;
 	}
 
-	public String getLien() {
-		return lien;
+	public String getContent() {
+		return content;
 	}
 
-	public void setLien(String lien) {
-		this.lien = lien;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-	public byte[] getVignette() {
-		return vignette;
+	public byte[] getThumbnail() {
+		return thumbnail;
 	}
 
-	public void setVignette(byte[] vignette) {
-		this.vignette = vignette;
+	public void setThumbnail(byte[] thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 	public List<Tags> getTags() {
@@ -98,5 +97,6 @@ public class Livre {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	
 	
 }
