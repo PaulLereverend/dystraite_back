@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -24,9 +25,11 @@ public class Lessons {
 	private String title;
 	
 	@Column(name = "description")
+	@Lob
 	private String description;
 	
 	@Column(name = "content")
+	@Lob
 	private String content;
 	
 	@Column(name = "thumbnail", columnDefinition="BLOB")
