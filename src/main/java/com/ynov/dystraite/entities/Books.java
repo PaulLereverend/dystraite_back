@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -24,6 +25,7 @@ public class Books {
 	private String title;
 	
 	@Column(name = "description")
+	@Lob
 	private String description;
 	
 	@Column(name = "link")
