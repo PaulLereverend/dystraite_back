@@ -10,7 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Tags {
 	
 	@Id
@@ -34,53 +39,14 @@ public class Tags {
 	@ManyToMany(mappedBy = "tags")
     private List<Books> books;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
+	public Tags(String title, String description, String color, List<Lessons> lessons, List<Books> books) {
+		super();
 		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
 		this.color = color;
-	}
-
-	public List<Lessons> getLessons() {
-		return lessons;
-	}
-
-	public void setLessons(List<Lessons> lessons) {
 		this.lessons = lessons;
-	}
-
-	public List<Books> getBooks() {
-		return books;
-	}
-
-	public void setBooks(List<Books> books) {
 		this.books = books;
 	}
-	
+
 }
 

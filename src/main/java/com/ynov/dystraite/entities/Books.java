@@ -13,7 +13,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Books {
 	
 	@Id
@@ -45,60 +50,14 @@ public class Books {
 			  inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tags> tags;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String titre) {
-		this.title = titre;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
+	public Books(String title, String description, String link, byte[] thumbnail, Date createdAt, List<Tags> tags) {
+		super();
+		this.title = title;
 		this.description = description;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String lien) {
-		this.link = lien;
-	}
-
-	public byte[] getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(byte[] vignette) {
-		this.thumbnail = vignette;
-	}
-
-	public List<Tags> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<Tags> tags) {
-		this.tags = tags;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
+		this.link = link;
+		this.thumbnail = thumbnail;
 		this.createdAt = createdAt;
+		this.tags = tags;
 	}
 	
 }
