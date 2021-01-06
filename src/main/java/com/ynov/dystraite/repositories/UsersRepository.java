@@ -1,6 +1,7 @@
 package com.ynov.dystraite.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +11,9 @@ import com.ynov.dystraite.entities.Users;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Integer>{
-	public Users findByEmail(String email);
+	Optional<Users> findByEmail(String email);
+	Boolean existsByUsername(String username);
+	Boolean existsByEmail(String email);
 	
 	@Query(value = "SELECT *, 111.111 *\n" + 
 			"    DEGREES(ACOS(LEAST(1.0, COS(RADIANS(?1))\n" + 
