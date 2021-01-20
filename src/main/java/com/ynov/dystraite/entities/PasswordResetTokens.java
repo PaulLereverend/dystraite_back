@@ -26,9 +26,16 @@ public class PasswordResetTokens {
     private String token;
 
     @OneToOne
-    @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "id")
+    @JoinColumn(nullable = false, name = "user_email", referencedColumnName = "email")
     private Users user;
 
     private Date expiryDate;
+
+    public PasswordResetTokens(String token, Users user, Date expiryDate) {
+        super();
+        this.token = token;
+        this.user = user;
+        this.expiryDate = expiryDate;
+    }
 }
 

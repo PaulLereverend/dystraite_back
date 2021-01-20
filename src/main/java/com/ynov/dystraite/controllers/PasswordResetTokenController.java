@@ -1,5 +1,6 @@
 package com.ynov.dystraite.controllers;
 
+import com.ynov.dystraite.exceptions.PasswordResetTokenNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,9 +42,9 @@ public class PasswordResetTokenController {
         }
         PasswordResetTokens passwordResetToken = passwordResetTokenService.getByToken(token);
         if (passwordResetToken == null) {
-            // Should throw here
-            return false;
+            throw new PasswordResetTokenNotFoundException(email);
         }
+
         user.setPassword(password);
         return true;
     }
