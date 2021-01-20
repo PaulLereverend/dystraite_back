@@ -50,6 +50,8 @@ public class Books {
 			  inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tags> tags;
 
+	public Books() {
+	}
 	public Books(String title, String description, String link, byte[] thumbnail, Date createdAt, List<Tags> tags) {
 		super();
 		this.title = title;

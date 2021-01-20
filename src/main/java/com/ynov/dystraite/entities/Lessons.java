@@ -64,6 +64,9 @@ public class Lessons {
 		this.createdAt = createdAt;
 		this.tags = tags;
 	}
+	public Lessons() {
+		super();
+	}
 	
 	
 }
