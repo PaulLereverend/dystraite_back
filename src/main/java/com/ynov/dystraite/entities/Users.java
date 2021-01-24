@@ -1,11 +1,13 @@
 package com.ynov.dystraite.entities;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Getter;
@@ -49,6 +51,10 @@ public class Users {
 	
 	@Column(name= "photo")
 	private Byte photo;
+	
+	@Column(name = "liked")
+	@ManyToMany
+	private List<Tips> liked;
 	
 	@OneToOne
 	@JoinColumn(name = "speech_therapist", referencedColumnName = "email")
