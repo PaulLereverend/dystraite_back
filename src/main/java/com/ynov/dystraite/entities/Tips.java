@@ -12,6 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Formula;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,8 +37,16 @@ public class Tips {
 	@Column(name = "created_at")
 	private Date createdAt;	
 	
-	@Column(name = "liked")
-	@ManyToMany
-	private List<Users> liked;
+	@ManyToOne
+    @JoinColumn(name="owner_id")
+    private Users owner;
 	
+	@Column(name = "likes")
+	@ManyToMany(mappedBy = "likedTips")
+	@JsonIgnore
+	private List<Users> likes;
+	
+	@Formula("likes.size()")
+    private long nbLikes;
+
 }

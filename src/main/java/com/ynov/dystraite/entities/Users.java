@@ -7,7 +7,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Getter;
@@ -54,7 +56,14 @@ public class Users {
 	
 	@Column(name = "liked")
 	@ManyToMany
-	private List<Tips> liked;
+	@JoinTable(
+			  name = "users_tips", 
+			  joinColumns = @JoinColumn(name = "email"), 
+			  inverseJoinColumns = @JoinColumn(name = "id"))
+	private List<Tips> likedTips;
+	
+	@OneToMany(mappedBy="owner")
+    private List<Tips> tips;
 	
 	@OneToOne
 	@JoinColumn(name = "speech_therapist", referencedColumnName = "email")
@@ -76,6 +85,9 @@ public class Users {
 		this.role = role;
 		this.photo = photo;
 		this.speechTherapist = speechTherapist;
+	}
+
+	public Users() {
 	}
 
 	@Override

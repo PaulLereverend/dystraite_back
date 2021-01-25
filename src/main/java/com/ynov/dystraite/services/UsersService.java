@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.ynov.dystraite.entities.Tips;
 import com.ynov.dystraite.entities.Users;
 import com.ynov.dystraite.exceptions.UserExistsException;
 import com.ynov.dystraite.exceptions.UserNotFoundException;
@@ -68,6 +69,11 @@ public class UsersService {
 		
 		usersRepo.save(copy(u, newUser));
 		return u;
+	}
+	public Tips like(Users user, Tips tip) {
+		user.getLikedTips().add(tip);
+		this.usersRepo.save(user);
+		return tip;
 	}
 	
 	private Users copy(Users user1, Users user2) {
