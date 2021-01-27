@@ -26,7 +26,7 @@ public class BooksController {
 	@RequestMapping(value = "/books", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Books> getAll() {
-		System.out.println("ss");
+		System.out.println("test");
 		return service.getAll();
 	}
 	@RequestMapping(value = "/books", method = RequestMethod.POST,

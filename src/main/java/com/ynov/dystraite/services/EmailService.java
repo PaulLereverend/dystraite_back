@@ -1,40 +1,44 @@
 package com.ynov.dystraite.services;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import java.util.Properties;
 
 public class EmailService {
     public static void sendMail(String recipient, String title, String content) {
-        String sender = "matteo.lecuit.dev@gmail.com";
+        try{
+            final String sender = "matteo.lecuit.dev@gmail.com";
+            final String password = "wfbvdhbfuwtvhkli";
 
-        Properties properties = System.getProperties();
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
 
-        properties.setProperty("mail.smtp.host", "smtp.gmail.com");
-        properties.setProperty("mail.smtp.port", "587");
-        properties.setProperty("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.starttls.enable", "true");
+            Session session = Session.getDefaultInstance(props,
+                    new javax.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(sender,password);
+                        }
+                    });
 
-        Session session = Session.getInstance(properties,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(sender, "fluydwegdiixkusz");
-                    }
-                });
-
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(sender));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            message.setSubject(title);
-            message.setText(content);
-            Transport.send(message);
-            System.out.println("Mail successfully sent");
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
+                MimeMessage message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(sender));
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+                message.setSubject(title);
+                message.setText(content);
+                Transport.send(message);
+                System.out.println("Mail successfully sent");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

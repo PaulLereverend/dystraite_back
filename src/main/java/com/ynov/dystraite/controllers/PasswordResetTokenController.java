@@ -13,9 +13,12 @@ import com.ynov.dystraite.services.UsersService;
 import com.ynov.dystraite.entities.PasswordResetTokens;
 import com.ynov.dystraite.services.PasswordResetTokenService;
 import com.ynov.dystraite.services.EmailService;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
+@RestController
 public class PasswordResetTokenController {
     @Autowired
     PasswordResetTokenService passwordResetTokenService;
@@ -24,13 +27,15 @@ public class PasswordResetTokenController {
 
     @RequestMapping(value="/users/requestToken", method = RequestMethod.POST, produces =  MediaType.APPLICATION_JSON_VALUE)
     public Boolean requestToken(String email) {
+        List<Users> users = userService.getAll();
+        System.out.println(users);
         Users user = userService.getById(email);
         if (user == null) {
-            throw new UserNotFoundException(email);
+           throw new UserNotFoundException(email);
         }
         String token = UUID.randomUUID().toString();
         passwordResetTokenService.createPasswordResetTokenForUser(user, token);
-        EmailService.sendMail(email, "Password reset code", token);
+        EmailService.sendMail(user.getEmail(), "Password reset code", token);
         return true;
     }
 
