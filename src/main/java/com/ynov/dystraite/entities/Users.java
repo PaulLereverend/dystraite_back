@@ -9,9 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
 public class Users {
@@ -72,13 +74,13 @@ public class Users {
 		this.speechTherapist = speechTherapist;
 	}
 
-	@Override
-	public String toString() {
-		return "Users [email=" + email + ", lastname=" + lastname + ", firstname=" + firstname + ", birthdate="
-				+ birthdate + ", latitude=" + latitude + ", longitude=" + longitude + ", city=" + city
-				+ ", zip_code=" + zipCode + ", password=" + password + ", role=" + role + ", profile_picture=" + profilePicture
-				+ ", speech_therapist=" + speechTherapist + "]";
-	}
+	//@Override
+	//public String toString() {
+	//	return "Users [email=" + email + ", lastname=" + lastname + ", firstname=" + firstname + ", birthdate="
+	//			+ birthdate + ", latitude=" + latitude + ", longitude=" + longitude + ", city=" + city
+	//			+ ", zip_code=" + zipCode + ", password=" + password + ", role=" + role + ", profile_picture=" + profilePicture
+	//			+ ", speech_therapist=" + speechTherapist + "]";
+	//}
 
 	
 }
