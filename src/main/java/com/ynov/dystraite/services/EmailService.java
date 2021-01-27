@@ -1,27 +1,44 @@
 package com.ynov.dystraite.services;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import java.util.Properties;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import java.util.Properties;
-
+@Service
 public class EmailService {
-    public static void sendMail(String recipient, String title, String content) {
-        try{
-            final String sender = "matteo.lecuit.dev@gmail.com";
-            final String password = "wfbvdhbfuwtvhkli";
 
+    @Value(value = "${mail.auth}")
+    private String auth;
+
+    @Value(value = "${mail.tls}")
+    private String tls;
+
+    @Value(value = "${mail.host}")
+    private String host;
+
+    @Value(value = "${mail.port}")
+    private String port;
+
+    @Value(value = "${mail.sender}")
+    private String sender;
+
+    @Value(value = "${mail.password}")
+    private String password;
+
+    public void sendMail(String recipient, String title, String content) {
+        try{
             Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.auth", auth);
+            props.put("mail.smtp.starttls.enable", tls);
+            props.put("mail.smtp.host", host);
+            props.put("mail.smtp.port", port);
 
             Session session = Session.getDefaultInstance(props,
                     new javax.mail.Authenticator() {

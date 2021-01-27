@@ -18,6 +18,7 @@ import com.ynov.dystraite.services.PasswordResetTokenService;
 import com.ynov.dystraite.services.EmailService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -29,6 +30,9 @@ public class PasswordResetTokenController {
     PasswordResetTokenService passwordResetTokenService;
     @Autowired
     UsersService userService;
+
+    @Autowired
+    EmailService emailService;
 
     @Autowired
     UsersRepository userRepo;
@@ -51,7 +55,7 @@ public class PasswordResetTokenController {
         passwordResetTokenService.createPasswordResetTokenForUser(user, token);
 
 
-        EmailService.sendMail(user.getEmail(), "Password reset code", url + "/reset-password/" +token);
+        emailService.sendMail(user.getEmail(), "Password reset code", url + "/reset-password/" +token);
         return true;
     }
 
