@@ -1,11 +1,10 @@
 package com.ynov.dystraite.controllers;
 
 import com.ynov.dystraite.exceptions.PasswordResetTokenNotFoundException;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import com.ynov.dystraite.entities.Users;
 import com.ynov.dystraite.exceptions.UserNotFoundException;
@@ -13,7 +12,6 @@ import com.ynov.dystraite.services.UsersService;
 import com.ynov.dystraite.entities.PasswordResetTokens;
 import com.ynov.dystraite.services.PasswordResetTokenService;
 import com.ynov.dystraite.services.EmailService;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,10 +23,13 @@ public class PasswordResetTokenController {
     @Autowired
     UsersService userService;
 
-    @RequestMapping(value="/users/requestToken", method = RequestMethod.POST, produces =  MediaType.APPLICATION_JSON_VALUE)
-    public Boolean requestToken(String email) {
-        List<Users> users = userService.getAll();
-        System.out.println(users);
+    static public class RequestTokenBody {
+        @Getter
+        private String email;
+    }
+    @RequestMapping(value="/users/requestToken", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
+    public Boolean requestToken(@RequestBody RequestTokenBody body) {
+        String email = body.getEmail();
         Users user = userService.getById(email);
         if (user == null) {
            throw new UserNotFoundException(email);
@@ -54,3 +55,4 @@ public class PasswordResetTokenController {
         return true;
     }
 }
+
