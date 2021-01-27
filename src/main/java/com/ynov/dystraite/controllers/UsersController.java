@@ -2,8 +2,14 @@ package com.ynov.dystraite.controllers;
 
 import java.util.List;
 
+import com.ynov.dystraite.security.JWTAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,12 +21,13 @@ import com.ynov.dystraite.entities.Users;
 import com.ynov.dystraite.exceptions.UserNotFoundException;
 import com.ynov.dystraite.services.UsersService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 public class UsersController {
 	@Autowired
 	UsersService service;
-
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@RequestMapping(value = "/users/{email}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -31,12 +38,6 @@ public class UsersController {
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Users> getAll() {
 		return service.getAll();
-	}
-	@RequestMapping(value = "/users", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-	public Users create(@RequestBody Users user) {
-		user.setPassword(service.encode(user.getPassword()));
-		return service.create(user);
 	}
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,20 +54,8 @@ public class UsersController {
 	public List<Users> findNearSpeechTherapist(@PathVariable String email) {
 		return service.getNearSpeechTherapist(service.getById(email));
 	}
-	@RequestMapping(value = "/login", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-	public Users login(String email, String password) {
-		Users user = service.getById(email);
-		if (service.isPasswordMatching(password, user.getPassword())) {
-			return user;
-		}else {
-			throw new UserNotFoundException("Incorrect login/password");
-		}
-	}
-
 	@RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void signUp(@RequestBody Users user) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		service.create(user);
+	public Users signUp(HttpServletResponse response, @RequestBody Users user) {
+		return service.create(response, user);
 	}
 }

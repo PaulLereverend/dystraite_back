@@ -4,12 +4,15 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Users {
 
 	@Id
@@ -41,6 +44,7 @@ public class Users {
 	private int zipCode;
 	
 	@Column(name = "password")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	
 	@Column(name = "role")

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.ynov.dystraite.entities.Users;
 
 @Repository
-public interface UsersRepository extends JpaRepository<Users, Integer>{
+public interface UsersRepository extends JpaRepository<Users, Long>{
 	public Users findByEmail(String email);
 	
 	@Query(value = "SELECT *, 111.111 *\n" + 

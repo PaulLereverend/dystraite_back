@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -23,6 +22,7 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
     private AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -33,13 +33,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            Users creds = new ObjectMapper()
+            Users u = new ObjectMapper()
                     .readValue(req.getInputStream(), Users.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
-                            creds.getPassword(),
+                            u.getEmail(),
+                            u.getPassword(),
                             new ArrayList<>())
             );
         } catch (IOException e) {
@@ -53,10 +53,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
-        String token = JWT.create()
-                .withSubject(((User) auth.getPrincipal()).getUsername())
+        String token = generateAndSetToken(((Users) auth.getPrincipal()).getEmail());
+        res.addHeader(SecurityConstants.HEADER_STRING, token);
+
+    }
+
+    public static String generateAndSetToken(String email){
+        return SecurityConstants.TOKEN_PREFIX + JWT.create()
+                .withSubject(email)
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .sign(HMAC512(SecurityConstants.SECRET.getBytes()));
-        res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+
+
     }
 }
