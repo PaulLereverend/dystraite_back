@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.Formula;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,7 @@ public class Tips {
 	
 	@ManyToOne
     @JoinColumn(name="owner_id")
+	@JsonIncludeProperties({"firstname"})
     private Users owner;
 	
 	@Column(name = "likes")
@@ -46,7 +48,8 @@ public class Tips {
 	@JsonIgnore
 	private List<Users> likes;
 	
-	@Formula("likes.size()")
+	@Formula("(SELECT COUNT(i.id) FROM users_tips i WHERE id = i.id)")
     private long nbLikes;
+	
 
 }

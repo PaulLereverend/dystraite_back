@@ -34,16 +34,16 @@ public class Users {
 	private Date birthdate;
 	
 	@Column(name = "latitude")
-	private long latitude;
+	private Long latitude;
 	
 	@Column(name = "longitude")
-	private long longitude;
+	private Long longitude;
 
 	@Column(name = "city")
 	private String city;
 	
 	@Column(name = "zip_code")
-	private int zipCode;
+	private Integer zipCode;
 	
 	@Column(name = "password")
 	private String password;
