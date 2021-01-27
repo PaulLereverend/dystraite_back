@@ -1,9 +1,14 @@
 package com.ynov.dystraite.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,11 +19,20 @@ import com.ynov.dystraite.exceptions.UserNotFoundException;
 import com.ynov.dystraite.repositories.UsersRepository;
 
 @Service
-public class UsersService {
+public class UsersService implements UserDetailsService {
 	@Autowired
 	UsersRepository usersRepo;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Users applicationUser = usersRepo.findByEmail(email);
+		if (applicationUser == null) {
+			throw new UsernameNotFoundException(email);
+		}
+		return new User(applicationUser.getEmail(), applicationUser.getPassword(), new ArrayList<>());
+	}
 	
 	public Users getById(@PathVariable String email) throws UserNotFoundException {
 		Users user = usersRepo.findByEmail(email);

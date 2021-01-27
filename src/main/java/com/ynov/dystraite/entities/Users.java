@@ -2,11 +2,7 @@ package com.ynov.dystraite.entities;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +11,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Users {
-	
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
 	@Column(name = "email")
 	private String email;
 	

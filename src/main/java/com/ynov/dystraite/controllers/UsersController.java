@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import com.ynov.dystraite.services.UsersService;
 public class UsersController {
 	@Autowired
 	UsersService service;
+
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@RequestMapping(value = "/users/{email}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -59,5 +62,11 @@ public class UsersController {
 		}else {
 			throw new UserNotFoundException("Incorrect login/password");
 		}
+	}
+
+	@RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void signUp(@RequestBody Users user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		service.create(user);
 	}
 }
