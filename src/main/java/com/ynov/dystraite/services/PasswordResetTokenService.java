@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -31,11 +33,8 @@ public class PasswordResetTokenService {
     }
 
     public PasswordResetTokens createPasswordResetTokenForUser(Users user, String token) {
-        PasswordResetTokens passwordResetToken = new PasswordResetTokens(token, user, new Date());
-        passwordResetToken.setToken(token);
-        passwordResetToken.setUser(user);
-        passwordResetToken.setExpiryDate(new Date());
-        System.out.println(new Date());
+        LocalDateTime expiryDate = LocalDateTime.now().plusMinutes(10);
+        PasswordResetTokens passwordResetToken = new PasswordResetTokens(token, user, expiryDate);
         passwordResetTokenRepo.save(passwordResetToken);
         return passwordResetToken;
     }

@@ -1,5 +1,6 @@
 package com.ynov.dystraite.controllers;
 
+import com.ynov.dystraite.exceptions.PasswordResetTokenExpiredException;
 import com.ynov.dystraite.exceptions.PasswordResetTokenNotFoundException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,8 @@ import com.ynov.dystraite.entities.PasswordResetTokens;
 import com.ynov.dystraite.services.PasswordResetTokenService;
 import com.ynov.dystraite.services.EmailService;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,6 +69,11 @@ public class PasswordResetTokenController {
             throw new PasswordResetTokenNotFoundException(email);
         }
 
+        LocalDateTime now = LocalDateTime.now();
+        long diff = ChronoUnit.MINUTES.between(passwordResetToken.getExpiryDate(), now);
+        if (diff > 10) {
+            throw new PasswordResetTokenExpiredException(email);
+        }
         user.setPassword(password);
         userRepo.save(user);
         return true;

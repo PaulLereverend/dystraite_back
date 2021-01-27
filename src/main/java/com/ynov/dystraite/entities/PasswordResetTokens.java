@@ -1,5 +1,6 @@
 package com.ynov.dystraite.entities;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -31,9 +32,9 @@ public class PasswordResetTokens {
     @JoinColumn(nullable = false, name = "user_email", referencedColumnName = "email")
     private Users user;
 
-    private Date expiryDate;
+    private LocalDateTime expiryDate;
 
-    public PasswordResetTokens(String token, Users user, Date expiryDate) {
+    public PasswordResetTokens(String token, Users user, LocalDateTime expiryDate) {
         super();
         this.token = token;
         this.user = user;
