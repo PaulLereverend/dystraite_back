@@ -5,6 +5,7 @@ import com.ynov.dystraite.exceptions.PasswordResetTokenNotFoundException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import com.ynov.dystraite.entities.PasswordResetTokens;
 import com.ynov.dystraite.services.PasswordResetTokenService;
 import com.ynov.dystraite.services.EmailService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -31,23 +33,25 @@ public class PasswordResetTokenController {
     @Autowired
     UsersRepository userRepo;
 
+    @Value(value ="${frontend.url}")
+    private String url;
+
     @Getter
     static private class RequestTokenBody {
         private String email;
     }
     @RequestMapping(value="/users/request-token", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
-    public Boolean requestToken(@RequestBody RequestTokenBody body) {
+    public Boolean requestToken(@RequestBody RequestTokenBody body, HttpServletRequest request) {
         String email = body.getEmail();
-        System.out.println(email);
-        List<Users> users = userService.getAll();
-        System.out.println(users);
         Users user = userService.getById(email);
         if (userService == null) {
            throw new UserNotFoundException(email);
         }
         String token = UUID.randomUUID().toString();
         passwordResetTokenService.createPasswordResetTokenForUser(user, token);
-        EmailService.sendMail(user.getEmail(), "Password reset code", token);
+
+
+        EmailService.sendMail(user.getEmail(), "Password reset code", url + "/reset-password/" +token);
         return true;
     }
 
