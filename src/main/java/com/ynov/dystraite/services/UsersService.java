@@ -1,34 +1,28 @@
 package com.ynov.dystraite.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import com.ynov.dystraite.entities.Users;
+import com.ynov.dystraite.exceptions.UserExistsException;
+import com.ynov.dystraite.exceptions.UserNotFoundException;
+import com.ynov.dystraite.models.CustomUserDetails;
+import com.ynov.dystraite.models.UserAuth;
+import com.ynov.dystraite.repositories.UsersRepository;
 import com.ynov.dystraite.security.JWTAuthenticationFilter;
-import com.ynov.dystraite.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.ynov.dystraite.entities.Users;
-import com.ynov.dystraite.exceptions.UserExistsException;
-import com.ynov.dystraite.exceptions.UserNotFoundException;
-import com.ynov.dystraite.repositories.UsersRepository;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsersService implements UserDetailsService {
@@ -46,7 +40,7 @@ public class UsersService implements UserDetailsService {
 		if (applicationUser == null) {
 			throw new UsernameNotFoundException(email);
 		}
-		return new User(applicationUser.getEmail(), applicationUser.getPassword(), new ArrayList<>());
+		return new CustomUserDetails(applicationUser, new ArrayList<>());
 	}
 	
 	public Users getById(@PathVariable String email) throws UserNotFoundException {
@@ -62,7 +56,7 @@ public class UsersService implements UserDetailsService {
 	}
 	
 	
-	public Users create(HttpServletResponse response, Users user) throws UserExistsException {
+	public UserAuth create(HttpServletResponse response, Users user) throws UserExistsException {
 		if (
 			user != null &&
 			user.getEmail() != null &&
@@ -85,8 +79,7 @@ public class UsersService implements UserDetailsService {
 
 			if (authentication.isAuthenticated()){
 				String token = JWTAuthenticationFilter.generateAndSetToken(u.getEmail());
-				response.setHeader(SecurityConstants.HEADER_STRING, token);
-				return u;
+				return new UserAuth(user, token);
 			}
 		}
 		return null;

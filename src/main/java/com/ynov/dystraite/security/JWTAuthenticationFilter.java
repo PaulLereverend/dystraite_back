@@ -2,12 +2,14 @@ package com.ynov.dystraite.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.ynov.dystraite.entities.Users;
+import com.ynov.dystraite.models.CustomUserDetails;
+import com.ynov.dystraite.models.UserAuth;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -19,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-
 
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -34,8 +35,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            Users u = new ObjectMapper()
-                    .readValue(req.getInputStream(), Users.class);
+            Users u = new ObjectMapper().readValue(req.getInputStream(), Users.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -54,9 +54,18 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
-        String token = generateAndSetToken(((User) auth.getPrincipal()).getUsername());
-        res.addHeader(SecurityConstants.HEADER_STRING, token);
+        CustomUserDetails customUserDetails = (CustomUserDetails) auth.getPrincipal();
+        String token = generateAndSetToken(customUserDetails.getUsername());
 
+        UserAuth userAuthResponse = new UserAuth(customUserDetails.getUser(), token);
+
+        //convertit l'objet utilisateur en JSON
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String userAuthResponseJson = ow.writeValueAsString(userAuthResponse);
+
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+        res.getWriter().write(userAuthResponseJson);
     }
 
     public static String generateAndSetToken(String email){

@@ -1,28 +1,14 @@
 package com.ynov.dystraite.controllers;
 
-import java.util.List;
-
-import com.ynov.dystraite.security.JWTAuthenticationFilter;
+import com.ynov.dystraite.entities.Users;
+import com.ynov.dystraite.models.UserAuth;
+import com.ynov.dystraite.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.ynov.dystraite.entities.Users;
-import com.ynov.dystraite.exceptions.UserNotFoundException;
-import com.ynov.dystraite.services.UsersService;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 public class UsersController {
@@ -55,7 +41,7 @@ public class UsersController {
 		return service.getNearSpeechTherapist(service.getById(email));
 	}
 	@RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Users signUp(HttpServletResponse response, @RequestBody Users user) {
+	public UserAuth signUp(HttpServletResponse response, @RequestBody Users user) {
 		return service.create(response, user);
 	}
 }
