@@ -1,18 +1,14 @@
 package com.ynov.dystraite.controllers;
 
-import java.util.List;
-
+import com.ynov.dystraite.entities.Users;
+import com.ynov.dystraite.models.UserAuth;
+import com.ynov.dystraite.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.ynov.dystraite.entities.Users;
-import com.ynov.dystraite.exceptions.UserNotFoundException;
-import com.ynov.dystraite.services.UsersService;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 public class UsersController {
@@ -29,12 +25,6 @@ public class UsersController {
 	public List<Users> getAll() {
 		return service.getAll();
 	}
-	@RequestMapping(value = "/users", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-	public Users create(@RequestBody Users user) {
-		user.setPassword(service.encode(user.getPassword()));
-		return service.create(user);
-	}
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Users delete(@PathVariable int id) {
@@ -50,14 +40,8 @@ public class UsersController {
 	public List<Users> findNearSpeechTherapist(@PathVariable String email) {
 		return service.getNearSpeechTherapist(service.getById(email));
 	}
-	@RequestMapping(value = "/login", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-	public Users login(String email, String password) {
-		Users user = service.getById(email);
-		if (service.isPasswordMatching(password, user.getPassword())) {
-			return user;
-		}else {
-			throw new UserNotFoundException("Incorrect login/password");
-		}
+	@RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public UserAuth signUp(HttpServletResponse response, @RequestBody Users user) {
+		return service.create(response, user);
 	}
 }
