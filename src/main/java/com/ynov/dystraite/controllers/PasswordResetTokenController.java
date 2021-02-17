@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.ynov.dystraite.entities.Users;
@@ -36,6 +37,9 @@ public class PasswordResetTokenController {
 
     @Autowired
     UsersRepository userRepo;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value(value ="${frontend.url}")
     private String url;
@@ -82,7 +86,7 @@ public class PasswordResetTokenController {
         if (diff > 10) {
             throw new PasswordResetTokenExpiredException(email);
         }
-        user.setPassword(password);
+        user.setPassword(bCryptPasswordEncoder.encode(password));
         userRepo.save(user);
         return true;
     }
