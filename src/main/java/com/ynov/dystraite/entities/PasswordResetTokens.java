@@ -1,5 +1,6 @@
 package com.ynov.dystraite.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -18,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Entity
-public class PasswordResetTokens {
+public class PasswordResetTokens implements Serializable {
 
     private static final int EXPIRATION = 60 * 24;
 
