@@ -55,7 +55,7 @@ public class PasswordResetTokenController {
         passwordResetTokenService.createPasswordResetTokenForUser(user, token);
 
 
-        emailService.sendMail(user.getEmail(), "Password reset code", url + "/reset-password/" +token);
+        emailService.sendMail(user.getEmail(), "Password reset code", url + "/change-password/" +token);
         return true;
     }
 
