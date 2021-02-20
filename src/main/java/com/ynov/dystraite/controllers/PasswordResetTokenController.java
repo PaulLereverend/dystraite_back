@@ -44,6 +44,9 @@ public class PasswordResetTokenController {
     @Value(value ="${frontend.url}")
     private String url;
 
+    @Value(value ="${mail.title.password}")
+    private String title;
+
     @Getter
     static private class RequestTokenBody {
         private String email;
@@ -59,7 +62,7 @@ public class PasswordResetTokenController {
         passwordResetTokenService.createPasswordResetTokenForUser(user, token);
 
 
-        emailService.sendMail(user.getEmail(), "Password reset code", url + "/change-password/" +token);
+        emailService.sendMail(user.getEmail(), title, url + "/change-password/" +token);
         return true;
     }
 
