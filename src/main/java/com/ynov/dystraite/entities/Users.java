@@ -51,16 +51,16 @@ public class Users implements Serializable {
 	@Column(name = "role")
 	private String role;
 	
-	@Column(name= "profile_picture")
-	private Byte profilePicture;
+	@Lob
+	@Column(name= "profile_picture", columnDefinition="BLOB")
+	private byte[] profilePicture;
 	
 	@OneToOne
 	@JoinColumn(name = "speech_therapist", referencedColumnName = "email")
 	private Users speechTherapist;
 
-
 	public Users(String email, String lastname, String firstname, Date birthdate, long latitude, long longitude,
-			String city, int zipCode, String password, String role, Byte profilePicture, Users speechTherapist) {
+			String city, int zipCode, String password, String role, byte[] profilePicture, Users speechTherapist) {
 		super();
 		this.email = email;
 		this.lastname = lastname;
