@@ -28,7 +28,7 @@ public class UsersController {
 	public List<Users> getAll() {
 		return service.getAll();
 	}
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE,
+	/*@RequestMapping(value = "/{id}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Users delete(@PathVariable int id) {
 		return service.delete(id);
@@ -42,7 +42,7 @@ public class UsersController {
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Users> findNearSpeechTherapist(@PathVariable String email) {
 		return service.getNearSpeechTherapist(service.getById(email));
-	}
+	}*/
 	@RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserAuth signUp(HttpServletResponse response, @RequestBody Users user) {
 		return service.create(response, user);

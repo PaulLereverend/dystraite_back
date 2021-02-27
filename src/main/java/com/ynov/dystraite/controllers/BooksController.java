@@ -28,7 +28,7 @@ public class BooksController {
 	public List<Books> getAll() {
 		return service.getAll();
 	}
-	@RequestMapping(value = "/books", method = RequestMethod.POST,
+	/*@RequestMapping(value = "/books", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Books create(Books book) {
 		return service.create(book);
@@ -42,7 +42,7 @@ public class BooksController {
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Books update(@PathVariable int id, Books book) {
 		return service.update(id, book);
-	}
+	}*/
 	@RequestMapping(value = "/books/getLast/{limit}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Books> getLast(@PathVariable int limit) {

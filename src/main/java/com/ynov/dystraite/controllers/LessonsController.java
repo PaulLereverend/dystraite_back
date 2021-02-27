@@ -29,7 +29,7 @@ public class LessonsController {
 		public List<Lessons> getAll() {
 			return service.getAll();
 		}
-		@RequestMapping(value = "/lessons", method = RequestMethod.POST,
+		/*@RequestMapping(value = "/lessons", method = RequestMethod.POST,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
 		public Lessons create(Lessons lesson) {
 			return service.create(lesson);
@@ -44,7 +44,7 @@ public class LessonsController {
 		public Lessons update(@PathVariable int id, Lessons lesson) {
 			return service.update(id, lesson);
 		}
-		
+		*/
 		@RequestMapping(value = "/lessons/getLast/{limit}", method = RequestMethod.GET,
 	            produces = MediaType.APPLICATION_JSON_VALUE)
 		public List<Lessons> getLast(@PathVariable int limit) {

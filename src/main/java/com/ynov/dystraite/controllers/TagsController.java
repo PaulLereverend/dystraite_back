@@ -29,7 +29,7 @@ public class TagsController {
 	public List<Tags> getAll() {
 		return service.getAll();
 	}
-	@RequestMapping(value = "/tags", method = RequestMethod.POST,
+	/*@RequestMapping(value = "/tags", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Tags create(Tags tags) {
 		return service.create(tags);
@@ -43,5 +43,5 @@ public class TagsController {
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Tags update(@PathVariable int id, Tags tags) {	
 		return service.update(id, tags);
-	}
+	}*/
 }
