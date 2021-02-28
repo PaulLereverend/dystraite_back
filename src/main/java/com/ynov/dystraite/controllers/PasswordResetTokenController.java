@@ -19,7 +19,6 @@ import com.ynov.dystraite.services.PasswordResetTokenService;
 import com.ynov.dystraite.services.EmailService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;

@@ -113,7 +113,12 @@ public class UsersService implements UserDetailsService {
 		return u;
 	}
 	public Tips like(Users user, Tips tip) {
-		user.getLikedTips().add(tip);
+		Optional<Tips> likedTip = user.getLikedTips().stream().filter(t -> t.getId() == tip.getId()).findFirst();
+		if(likedTip.isPresent()) {
+			user.getLikedTips().remove(likedTip.get());
+		}else {
+			user.getLikedTips().add(tip);
+		}
 		this.usersRepo.save(user);
 		return tip;
 	}

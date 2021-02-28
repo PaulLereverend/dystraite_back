@@ -59,8 +59,8 @@ public class UsersController {
 	}
 	@RequestMapping(value = "/like", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-	public Tips like(@RequestBody Tips tip) {
-		return this.service.like(null, tip);
+	public Tips like(@RequestBody Tips tip, Authentication authentication) {
+		return this.service.like(service.getById(authentication.getName()), tip);
 	}
 	@RequestMapping(value = "/likedTips", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
