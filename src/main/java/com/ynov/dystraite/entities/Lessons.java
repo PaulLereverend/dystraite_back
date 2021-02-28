@@ -1,5 +1,6 @@
 package com.ynov.dystraite.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -14,12 +15,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-public class Lessons {
+public class Lessons implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
