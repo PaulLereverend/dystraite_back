@@ -44,7 +44,7 @@ public class UsersController {
 		return service.getNearSpeechTherapist(service.getById(email));
 	}*/
 	@RequestMapping(value = "/sign-up", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public UserAuth signUp(HttpServletResponse response, @RequestBody Users user) {
+	public UserAuth signUp(HttpServletResponse response, @RequestParam Users user) {
 		return service.create(response, user);
 	}
 }
