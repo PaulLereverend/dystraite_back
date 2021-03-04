@@ -5,6 +5,9 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,15 +55,15 @@ public class Users implements Serializable {
 	private String role;
 	
 	@Lob
-	@Column(name= "profile_picture", columnDefinition="BLOB")
-	private byte[] profilePicture;
+	@Column(name= "profile_picture", columnDefinition="MEDIUMBLOB", length = 20971520)
+	private String profilePicture;
 	
 	@OneToOne
 	@JoinColumn(name = "speech_therapist", referencedColumnName = "email")
 	private Users speechTherapist;
 
 	public Users(String email, String lastname, String firstname, Date birthdate, long latitude, long longitude,
-			String city, int zipCode, String password, String role, byte[] profilePicture, Users speechTherapist) {
+			String city, int zipCode, String password, String role, String profilePicture, Users speechTherapist) {
 		super();
 		this.email = email;
 		this.lastname = lastname;

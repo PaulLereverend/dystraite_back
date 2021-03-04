@@ -28,16 +28,17 @@ public class UsersController {
 	public List<Users> getAll() {
 		return service.getAll();
 	}
+	@RequestMapping(value = "", method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+	public Users update(@RequestBody Users user) {
+		return service.update(user);
+	}
 	/*@RequestMapping(value = "/{id}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Users delete(@PathVariable int id) {
 		return service.delete(id);
 	}
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-	public Users update(@PathVariable int id, Users user) {
-		return service.update(id, user);
-	}
+	
 	@RequestMapping(value = "/speechtherapists/near/{email}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Users> findNearSpeechTherapist(@PathVariable String email) {

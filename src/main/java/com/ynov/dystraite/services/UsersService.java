@@ -101,48 +101,10 @@ public class UsersService implements UserDetailsService {
 		usersRepo.deleteById(id);
 		return user.get();
 	}
-	public Users update(@PathVariable long id, Users newUser) {
-		Optional<Users> user= usersRepo.findById(id);
-		if(!user.isPresent()) {
-			System.out.println("User not found");
-		}
-		Users u = user.get();
-		
-		usersRepo.save(copy(u, newUser));
-		return u;
+	public Users update(Users newUser) {
+		return usersRepo.save(newUser);
 	}
-	
-	private Users copy(Users user1, Users user2) {
-		if (user2.getEmail() != null){
-			user1.setEmail(user2.getEmail());
-		}
-		if (user2.getLastname() != null){
-			user1.setLastname(user2.getLastname());
-		}
-		if (user2.getFirstname() != null){
-			user1.setFirstname(user2.getFirstname());
-		}
-		if (user2.getBirthdate() != null){
-			user1.setBirthdate(user2.getBirthdate());
-		}
-		if (user2.getLatitude() != 0){
-			user1.setLatitude(user2.getLatitude());
-		}
-		if (user2.getLongitude() != 0){
-			user1.setLongitude(user2.getLongitude());
-		}
-		if (user2.getCity() != null){
-			user1.setCity(user2.getCity());
-		}
-		if (user2.getRole() != null){
-			user1.setRole(user2.getRole());
-		}
-		if (user2.getSpeechTherapist() != null){
-			user1.setSpeechTherapist(user2.getSpeechTherapist());
-		}
-		
-		return user1;
-	}
+
 
 	public List<Users> getNearSpeechTherapist(Users util){
 		return usersRepo.findNearest(util.getLatitude(), util.getLongitude());
