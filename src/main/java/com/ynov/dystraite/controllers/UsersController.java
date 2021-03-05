@@ -28,7 +28,7 @@ public class UsersController {
 	public List<Users> getAll() {
 		return service.getAll();
 	}
-	@RequestMapping(value = "", method = RequestMethod.PUT,
+	@RequestMapping(value = "", method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public Users update(@RequestBody Users user) {
 		return service.update(user);

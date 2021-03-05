@@ -102,6 +102,8 @@ public class UsersService implements UserDetailsService {
 		return user.get();
 	}
 	public Users update(Users newUser) {
+		String oldPassword = this.usersRepo.findById(newUser.getId()).get().getPassword();
+		newUser.setPassword(oldPassword);
 		return usersRepo.save(newUser);
 	}
 
