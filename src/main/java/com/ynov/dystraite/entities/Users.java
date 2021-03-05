@@ -59,14 +59,16 @@ public class Users implements Serializable {
 	@Column(name= "profile_picture", columnDefinition="MEDIUMBLOB", length = 20971520)
 	private String profilePicture;
 	
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@Column(name = "liked")
-	@ManyToMany
+	@ManyToMany()
 	@JoinTable(
 			  name = "users_tips", 
 			  joinColumns = @JoinColumn(name = "email"), 
 			  inverseJoinColumns = @JoinColumn(name = "id"))
 	private List<Tips> likedTips;
 	
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="owner")
     private List<Tips> tips;
 	

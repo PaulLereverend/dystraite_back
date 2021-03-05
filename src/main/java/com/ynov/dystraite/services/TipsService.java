@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -31,12 +32,14 @@ public class TipsService {
 		tipsRepo.save(tip);
 		return tip;
 	}
-	public Tips delete(@PathVariable int id) {
+	public Tips delete(@PathVariable int id, Authentication authentication) {
 		Optional<Tips> tip= tipsRepo.findById(id);
 		if(!tip.isPresent()) {
 			System.out.println("Tip not found");
 		}
-		tipsRepo.deleteById(id);
+		if(tip.get().getOwner().getEmail().equals(authentication.getName())){
+			tipsRepo.deleteById(id);
+		}
 		return tip.get();
 	}
 	public Tips update(Tips newTip) {
