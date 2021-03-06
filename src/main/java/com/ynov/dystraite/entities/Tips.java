@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
@@ -32,7 +35,7 @@ public class Tips {
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "content")
+	@Column(name = "content", nullable = false)
 	private String content;
 	
 	@Column(name = "created_at")
@@ -47,6 +50,11 @@ public class Tips {
 	@ManyToMany(mappedBy = "likedTips")
 	@JsonIgnore
 	private List<Users> likes;
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@Column(name = "tags")
+    @ElementCollection(targetClass=String.class)
+	private List<String> tags;
 	
 	@Formula("(SELECT COUNT(i.id) FROM users_tips i WHERE id = i.id)")
     private long nbLikes;

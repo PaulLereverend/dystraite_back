@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,8 +35,8 @@ public class TipsController {
 	}
 	@RequestMapping(value = "", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-	public Tips create(Tips tip) {
-		return service.create(tip);
+	public Tips create(Authentication authentication, @RequestBody Tips tip) {
+		return service.create(tip, authentication);
 	}
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
