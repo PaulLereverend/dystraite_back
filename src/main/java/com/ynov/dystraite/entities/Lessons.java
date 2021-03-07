@@ -1,5 +1,6 @@
 package com.ynov.dystraite.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -10,10 +11,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
-public class Lessons {
+@Getter
+@Setter
+public class Lessons implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +32,18 @@ public class Lessons {
 	private String title;
 	
 	@Column(name = "description")
+	@Lob
 	private String description;
 	
 	@Column(name = "content")
+	@Lob
 	private String content;
 	
 	@Column(name = "thumbnail", columnDefinition="BLOB")
 	private byte[] thumbnail;
+	
+	@Column(name = "video")
+	private String video;
 	
 	@Column(name = "created_at")
 	private Date createdAt;	
@@ -42,60 +55,19 @@ public class Lessons {
 			  inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tags> tags;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
+	public Lessons(String title, String description, String content, byte[] thumbnail, String video, Date createdAt,
+			List<Tags> tags) {
+		super();
 		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public byte[] getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(byte[] thumbnail) {
 		this.thumbnail = thumbnail;
-	}
-
-	public List<Tags> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<Tags> tags) {
+		this.video = video;
+		this.createdAt = createdAt;
 		this.tags = tags;
 	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
+	public Lessons() {
+		super();
 	}
 	
 	

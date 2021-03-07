@@ -1,17 +1,28 @@
 package com.ynov.dystraite.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-public class Users {
-	
+@NoArgsConstructor
+@Getter
+@Setter
+public class Users implements Serializable {
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
 	@Column(name = "email")
 	private String email;
 	
@@ -36,121 +47,45 @@ public class Users {
 	@Column(name = "zip_code")
 	private int zipCode;
 	
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	
 	@Column(name = "role")
 	private String role;
 	
-	@Column(name= "photo")
-	private Byte photo;
+	@Lob
+	@Column(name= "profile_picture", columnDefinition="MEDIUMBLOB", length = 20971520)
+	private String profilePicture;
 	
 	@OneToOne
 	@JoinColumn(name = "speech_therapist", referencedColumnName = "email")
 	private Users speechTherapist;
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
+	public Users(String email, String lastname, String firstname, Date birthdate, long latitude, long longitude,
+			String city, int zipCode, String password, String role, String profilePicture, Users speechTherapist) {
+		super();
 		this.email = email;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
 		this.lastname = lastname;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
 		this.firstname = firstname;
-	}
-
-	public Date getBirthdate() {
-		return birthdate;
-	}
-
-	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
-	}
-	
-
-	public long getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(long latitude) {
 		this.latitude = latitude;
-	}
-
-	public long getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(long longitude) {
 		this.longitude = longitude;
-	}
-
-	public Byte getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(Byte photo) {
-		this.photo = photo;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
 		this.city = city;
-	}
-
-	public int getZipCode() {
-		return zipCode;
-	}
-
-	public void setZipCode(int zipCode) {
-	    this.zipCode = zipCode;
-    }
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
+		this.zipCode = zipCode;
 		this.password = password;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
 		this.role = role;
-	}
-
-	public Users getSpeechTherapist() {
-		return speechTherapist;
-	}
-
-	public void setSpeechTherapist(Users speechTherapist) {
+		this.profilePicture = profilePicture;
 		this.speechTherapist = speechTherapist;
 	}
 
-	@Override
-	public String toString() {
-		return "Users [email=" + email + ", lastname=" + lastname + ", firstname=" + firstname + ", birthdate="
-				+ birthdate + ", latitude=" + latitude + ", longitude=" + longitude + ", city=" + city
-				+ ", zip_code=" + zipCode + ", password=" + password + ", role=" + role + ", photo=" + photo
-				+ ", speech_therapist=" + speechTherapist + "]";
-	}
+	//@Override
+	//public String toString() {
+	//	return "Users [email=" + email + ", lastname=" + lastname + ", firstname=" + firstname + ", birthdate="
+	//			+ birthdate + ", latitude=" + latitude + ", longitude=" + longitude + ", city=" + city
+	//			+ ", zip_code=" + zipCode + ", password=" + password + ", role=" + role + ", profile_picture=" + profilePicture
+	//			+ ", speech_therapist=" + speechTherapist + "]";
+	//}
+
 	
 }
