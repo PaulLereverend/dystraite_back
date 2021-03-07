@@ -60,7 +60,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, SecurityConstants.CHANGE_PASSWORD_URL).permitAll()
                 .antMatchers(HttpMethod.GET, SecurityConstants.LESSONS_URL).permitAll()
                 .antMatchers(HttpMethod.GET, SecurityConstants.BOOKS_URL).permitAll()
-
+                .antMatchers(HttpMethod.GET, SecurityConstants.TIPS_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
