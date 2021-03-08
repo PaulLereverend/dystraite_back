@@ -1,5 +1,6 @@
 package com.ynov.dystraite.services;
 
+import com.ynov.dystraite.entities.Tips;
 import com.ynov.dystraite.entities.Users;
 import com.ynov.dystraite.exceptions.UserExistsException;
 import com.ynov.dystraite.exceptions.UserNotFoundException;
@@ -105,6 +106,16 @@ public class UsersService implements UserDetailsService {
 		String oldPassword = this.usersRepo.findById(newUser.getId()).get().getPassword();
 		newUser.setPassword(oldPassword);
 		return usersRepo.save(newUser);
+	}
+	public Tips like(Users user, Tips tip) {
+		Optional<Tips> likedTip = user.getLikedTips().stream().filter(t -> t.getId() == tip.getId()).findFirst();
+		if(likedTip.isPresent()) {
+			user.getLikedTips().remove(likedTip.get());
+		}else {
+			user.getLikedTips().add(tip);
+		}
+		this.usersRepo.save(user);
+		return tip;
 	}
 
 

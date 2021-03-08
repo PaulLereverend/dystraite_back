@@ -12,5 +12,7 @@ public class SecurityConstants {
     
     public static final String LESSONS_URL = "/lessons/**";
     public static final String BOOKS_URL = "/books/**";
+    public static final String TIPS_URL = "/tips/";
+
 
 }
