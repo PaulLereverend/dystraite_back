@@ -2,6 +2,7 @@ package com.ynov.dystraite.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -36,16 +37,16 @@ public class Users implements Serializable {
 	private Date birthdate;
 	
 	@Column(name = "latitude")
-	private long latitude;
+	private Long latitude;
 	
 	@Column(name = "longitude")
-	private long longitude;
+	private Long longitude;
 
 	@Column(name = "city")
 	private String city;
 	
 	@Column(name = "zip_code")
-	private int zipCode;
+	private Integer zipCode;
 	
 	@Column(name = "password", nullable = false)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -57,6 +58,19 @@ public class Users implements Serializable {
 	@Lob
 	@Column(name= "profile_picture", columnDefinition="MEDIUMBLOB", length = 20971520)
 	private String profilePicture;
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@Column(name = "liked")
+	@ManyToMany()
+	@JoinTable(
+			  name = "users_tips", 
+			  joinColumns = @JoinColumn(name = "email"), 
+			  inverseJoinColumns = @JoinColumn(name = "id"))
+	private List<Tips> likedTips;
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="owner")
+    private List<Tips> tips;
 	
 	@OneToOne
 	@JoinColumn(name = "speech_therapist", referencedColumnName = "email")

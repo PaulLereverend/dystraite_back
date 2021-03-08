@@ -9,6 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import com.ynov.dystraite.entities.Tips;
+import com.ynov.dystraite.entities.Users;
+import com.ynov.dystraite.exceptions.UserNotFoundException;
+import com.ynov.dystraite.services.UsersService;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -35,6 +39,12 @@ public class UsersController {
 	}
 	/*@RequestMapping(value = "/{id}", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+	public Users create(@RequestBody Users user) {
+		user.setPassword(service.encode(user.getPassword()));
+		return service.create(user);
+	}
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
 	public Users delete(@PathVariable int id) {
 		return service.delete(id);
 	}
@@ -48,4 +58,23 @@ public class UsersController {
 	public UserAuth signUp(HttpServletResponse response, @RequestBody Users user) {
 		return service.create(response, user);
 	}
+	@RequestMapping(value = "/like", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+	public Tips like(@RequestBody Tips tip, Authentication authentication) {
+		return this.service.like(service.getById(authentication.getName()), tip);
+	}
+	@RequestMapping(value = "/likedTips", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Tips> getLikedTips() {
+		Users user = new Users();
+		return user.getLikedTips();
+	}
+	@RequestMapping(value = "/tips", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Tips> getTips() {
+		Users user = new Users();
+		return user.getTips();
+	}
+	
+	
 }
