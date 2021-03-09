@@ -61,7 +61,7 @@ public class Users implements Serializable {
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@Column(name = "liked")
-	@ManyToMany()
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 			  name = "users_tips", 
 			  joinColumns = @JoinColumn(name = "email"), 
@@ -69,7 +69,7 @@ public class Users implements Serializable {
 	private List<Tips> likedTips;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy="owner")
+	@OneToMany(mappedBy="owner", cascade = CascadeType.ALL)
     private List<Tips> tips;
 	
 	@OneToOne
