@@ -3,6 +3,7 @@ package com.ynov.dystraite.entities;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -47,7 +48,7 @@ public class Tips {
     private Users owner;
 	
 	@Column(name = "likes")
-	@ManyToMany(mappedBy = "likedTips")
+	@ManyToMany(mappedBy = "likedTips", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Users> likes;
 	
